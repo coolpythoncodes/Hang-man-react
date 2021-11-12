@@ -2,13 +2,16 @@ import React from "react"
 
 type ButtonProps = {
     title: string;
-    backgroundColor: string;
-    handleClick: (event:React.MouseEvent<HTMLButtonElement>, letter?:string) => void;
+    isDisabled?: boolean;
+    className?: string;
+    name?: string;
+    handleClick: (event: React.MouseEvent<HTMLButtonElement>, letter?: string) => void;
 }
 
-const Button = ({title, backgroundColor, handleClick}:ButtonProps) => {
+const Button = ({ title, className, handleClick, isDisabled, name }: ButtonProps) => {
     return (
-        <button onClick={handleClick} style={{background:`${backgroundColor}`}} className="text-white py-4 px-5 rounded-md ">
+        <button disabled={isDisabled} onClick={handleClick} name={name}
+            className={`text-white py-4 px-5 rounded-md  ${className} ${isDisabled ? 'bg-opacity-30' : 'hover:bg-opacity-70'}`}>
             {title}
         </button>
     )

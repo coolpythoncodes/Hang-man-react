@@ -1,10 +1,11 @@
-// import Button from "./button"
+import Button from "./button"
 
 const GameSetting = () => {
+    const handleClick = () => { }
     return (
         <div className="flex justify-center space-x-5 mt-10">
-            {/* <Button title="Next" backgroundColor="#28a745" />
-            <Button title="Reset" backgroundColor="#17a2b8" /> */}
+            <Button handleClick={handleClick} title="Next" className="bg-[#28a745]" />
+            <Button handleClick={handleClick} title="Reset" className="bg-[#17a2b8]" />
         </div>
     )
 }

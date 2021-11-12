@@ -1,11 +1,17 @@
-import React, { createContext, useState } from 'react'
+import React, { createContext, useContext, useState } from 'react'
 
-interface IInitialState{
-    currentLetter: string
+interface IInitialState {
+    numberOfWrongGuesses: number;
+    userClickedLetter: string[];
+    gameOver: boolean;
 }
 
 interface StoreContextInterface {
-    store: IInitialState
+    numberOfWrongGuesses: number;
+    userClickedLetter: string[];
+    store: IInitialState;
+    gameOver: boolean;
+    setStore: (store: IInitialState) => void
 }
 
 const StoreContext = createContext<StoreContextInterface | null>(null)
@@ -16,15 +22,19 @@ type StoreContextProviderProps = {
 
 const StoreContextProvider = ({ children }: StoreContextProviderProps) => {
     const initialState = {
-        currentLetter: "",
+        numberOfWrongGuesses: 0,
+        userClickedLetter: [],
+        gameOver: false,
     }
     const [store, setStore] = useState<IInitialState>(initialState)
     return (
-        <StoreContext.Provider value={{ store, setStore }}>
+        <StoreContext.Provider value={{ store, setStore, ...store }}>
             {children}
         </StoreContext.Provider>
 
     )
 }
 
-export default StoreContextProvider;
+const useStoreContext = () => useContext(StoreContext)!
+
+export { StoreContextProvider, useStoreContext };
