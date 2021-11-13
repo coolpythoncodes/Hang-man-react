@@ -12,7 +12,7 @@ const Guess = ({ randomNigeriaState }: GuessProps) => {
                 <p>Guess the Nigeria State :</p>
                 <p className="text-center my-5">
                     {
-                        gameOver ? <p>{randomNigeriaState}</p> : <>{randomNigeriaState?.split("")?.map((letter: string, index: number) => <span className="px-1">{userClickedLetter.includes(letter) ? letter : "-"}</span>)}</>
+                        gameOver ? <p>{randomNigeriaState}</p> : <>{randomNigeriaState?.split("")?.map((letter: string, index: number) => <span key={index} className="px-1">{userClickedLetter.includes(letter) ? letter : "-"}</span>)}</>
                     }
                 </p>
             </div>

@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import Footer from "./components/footer";
 import GameSetting from "./components/GameSetting";
 import Guess from "./components/Guess";
 import HangMan from "./components/HangMan";
@@ -22,6 +23,7 @@ const App = () => {
         <Guess randomNigeriaState={randomNigeriaState} />
         <Keyboard randomNigeriaState={randomNigeriaState} TotalNumberOfGuessesAllowed={TotalNumberOfGuessesAllowed} />
         <GameSetting />
+        <Footer/>
       </div>
     </div>
   )
