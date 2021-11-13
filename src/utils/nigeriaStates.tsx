@@ -12,7 +12,7 @@ export const nigeriaStates = [
     "ebonyi",
     "edo",
     "ekiti",
-    "enugu",
+    "enugu",  
     "gombe",
     "imo",
     "jigawa",

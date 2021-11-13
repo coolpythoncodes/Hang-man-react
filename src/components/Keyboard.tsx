@@ -1,54 +1,65 @@
-import { title } from "process";
+import { useEffect } from "react";
 import { useStoreContext } from "../context/storeContext";
+import { checkGameOver, checkGameWon } from "../utils/helpers/gameControl.helpers";
 import Button from "./button";
 
 
 type KeyboardProps = {
-    randomNigeriaState: string;
     TotalNumberOfGuessesAllowed: number;
 }
 
-
-const Keyboard = ({ randomNigeriaState, TotalNumberOfGuessesAllowed }: KeyboardProps
+const Keyboard = ({ TotalNumberOfGuessesAllowed }: KeyboardProps
 ) => {
 
-    const { setStore, store, gameOver } = useStoreContext()
+    const { setStore, store, isGameOver, isGameWon, randomNigeriaState } = useStoreContext()
     const alphabetArray = "abcdefghijklmnopqrstuvwxyz".split("")
 
-
+    useEffect(() => {
+        checkGameOver(store, setStore, TotalNumberOfGuessesAllowed)
+        checkGameWon(isGameOver, randomNigeriaState, store, setStore)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [store.userClickedLetter])
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         const letterClicked = event.currentTarget.name
         // @ts-ignore
         setStore(prevState => ({ ...prevState, userClickedLetter: [...prevState.userClickedLetter, letterClicked] }))
         const correctGuess = randomNigeriaState.includes(letterClicked)
-        if (!correctGuess && !store.gameOver) {
+
+        // update the number of wrong guesses 
+        if (!correctGuess && !store.isGameOver) {
             // @ts-ignore
             setStore((prevState) => ({ ...prevState, numberOfWrongGuesses: prevState.numberOfWrongGuesses + 1 }))
         }
-        if (store.numberOfWrongGuesses === TotalNumberOfGuessesAllowed - 1) {
+        // Determine if the game is over
+        if (store.numberOfWrongGuesses === TotalNumberOfGuessesAllowed) {
             // @ts-ignore
-            setStore((prevState) => ({ ...prevState, gameOver: true }))
+            setStore((prevState) => ({ ...prevState, isGameOver: true }))
         }
+
+
 
     }
     return (
         <div className="flex justify-center space-x-4 gap-y-4 flex-wrap">
-            {
-                gameOver ?
-                    <p className="my-5">You Lost! Try Again!!</p> :
-                    <>
-                        {alphabetArray.map(
-                            (letter, index) =>
-                                <Button
-                                    key={index}
-                                    isDisabled={store.userClickedLetter.includes(letter)}
-                                    handleClick={handleClick}
-                                    title={letter}
-                                    name={letter}
-                                    className="bg-primary" />)}
-                    </>
-            }
+            <>
+                {
+                    isGameOver ?
+                        <p className="my-5">You Lost! Try Again!!</p> :
+                        isGameWon ? <p className="my-5">You Won!</p> :
+                            <>
+                                {alphabetArray.map(
+                                    (letter, index) =>
+                                        <Button
+                                            key={index}
+                                            isDisabled={store.userClickedLetter.includes(letter)}
+                                            handleClick={handleClick}
+                                            title={letter}
+                                            name={letter}
+                                            className="bg-primary" />)}
+                            </>
+                }
+            </>
         </div>
     )
 }

@@ -1,18 +1,7 @@
 import React, { createContext, useContext, useState } from 'react'
+import { IInitialState, initialState, StoreContextInterface } from '../utils/helpers/store.helpers'
 
-interface IInitialState {
-    numberOfWrongGuesses: number;
-    userClickedLetter: string[];
-    gameOver: boolean;
-}
 
-interface StoreContextInterface {
-    numberOfWrongGuesses: number;
-    userClickedLetter: string[];
-    store: IInitialState;
-    gameOver: boolean;
-    setStore: (store: IInitialState) => void
-}
 
 const StoreContext = createContext<StoreContextInterface | null>(null)
 
@@ -21,11 +10,7 @@ type StoreContextProviderProps = {
 }
 
 const StoreContextProvider = ({ children }: StoreContextProviderProps) => {
-    const initialState = {
-        numberOfWrongGuesses: 0,
-        userClickedLetter: [],
-        gameOver: false,
-    }
+
     const [store, setStore] = useState<IInitialState>(initialState)
     return (
         <StoreContext.Provider value={{ store, setStore, ...store }}>
